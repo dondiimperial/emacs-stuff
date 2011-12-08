@@ -41,6 +41,9 @@
 ;; Defualt font size
 (set-face-attribute 'default nil :height 100)
 
+;; Global loadpath
+(add-to-list 'load-path "~/.emacs-site")
+
 ;; start jdee
 ;;(add-to-list 'load-path (expand-file-name "/home/dimperial/.emacs-site/jde/lisp"))
 ;;(add-to-list 'load-path (expand-file-name "/home/dimperial/.emacs-site/cedet/common"))
@@ -63,7 +66,6 @@
 ;;end jdee
 
 ;; php-mode
-;;(add-to-list 'load-path "~/.emacs-site")
 ;;(add-to-list 'load-path (expand-file-name "/home/sg0208824/.emacs-site/groovy-mode"))
 ;;(setq auto-mode-alist (cons '("\.groovy$" . groovy-mode) auto-mode-alist))
 ;;(require 'groovy-mode)
@@ -143,3 +145,49 @@
 ;; )
 
 ;;(put 'upcase-region 'disabled nil)
+
+;; Indentation for org-mode
+(setq org-startup-indented t)
+
+;; Emacs-Eclim
+;;(add-to-list 'load-path (expand-file-name "~/.emacs-site/emacs-eclim/"))
+;; only add the vendor path when you want to use the libraries provided with emacs-eclim
+;;
+;;(add-to-list 'load-path (expand-file-name "~/.emacs-site/emacs-eclim/vendor"))
+;;(require 'eclim)
+;;(setq eclim-auto-save t)
+;;(global-eclim-mode)
+
+;; Lua mode
+(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+(add-to-list 'auto-mode-alist '("\.lua$" . lua-mode))
+(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
+
+;; Haskell mode
+(load "~/.emacs-site/haskell-mode/haskell-site-file")
+(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+(add-to-list 'auto-mode-alist '("\.hs$" . haskell-mode))
+
+;; org-mode
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+
+;; global todo lists
+(setq org-agenda-files (list "~/Documents/todos/work.org"
+                             "~/Documents/todos/home.org"
+                             "~/Documents/todos/improvement.org"
+                             ))
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ )
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "black" :foreground "grey" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
