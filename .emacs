@@ -159,15 +159,15 @@
 ;;(global-eclim-mode)
 
 ;; Lua mode
-(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
-(add-to-list 'auto-mode-alist '("\.lua$" . lua-mode))
-(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
+;;(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+;;(add-to-list 'auto-mode-alist '("\.lua$" . lua-mode))
+;;(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 
 ;; Haskell mode
-(load "~/.emacs-site/haskell-mode/haskell-site-file")
-(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
-(add-to-list 'auto-mode-alist '("\.hs$" . haskell-mode))
+;;(load "~/.emacs-site/haskell-mode/haskell-site-file")
+;;(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+;;(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+;;(add-to-list 'auto-mode-alist '("\.hs$" . haskell-mode))
 
 ;; org-mode
 (define-key global-map "\C-cl" 'org-store-link)
@@ -179,15 +179,19 @@
                              "~/Documents/todos/home.org"
                              "~/Documents/todos/improvement.org"
                              ))
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- )
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "black" :foreground "grey" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
+;; Fonts and faces for emacs23
+;;(custom-set-variables
+;;  ;; custom-set-variables was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;; )
+;;(custom-set-faces
+;;  ;; custom-set-faces was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;; '(default ((t (:inherit nil :stipple nil :background "black" :foreground "grey" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
+
+;; In emacs24 we use a theme instead of the above
+(load-theme 'wombat t)
