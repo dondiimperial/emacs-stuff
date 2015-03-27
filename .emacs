@@ -85,9 +85,22 @@
 
 ;; Auto load java mode for .java files
 ;;(setq auto-mode-alist (cons '("\.java$" . jde-mode) auto-mode-alist))
+(require 'php-mode)
 (setq auto-mode-alist (cons '("\.ctp$" . html-mode) auto-mode-alist))
 ;; Auto load perl mode for .php files
 (setq auto-mode-alist (cons '("\.php$" . php-mode) auto-mode-alist))
+;; Web mode for all web type files.
+(require 'web-mode)
+(defun my-web-mode-hook ()
+  "Hooks for Web mode."
+  ;; HTML indent
+  (setq web-mode-markup-indent-offset 4)
+  ;; CSS indent
+  (setq web-mode-css-indent-offset 4)
+  ;; Javascript, PHP, Java, etc. indent.
+  (setq web-mode-code-indent-offset 4)
+)
+(add-hook 'web-mode-hook  'my-web-mode-hook)
 
 ;; Tramp for remote file editing
 ;;(add-to-list 'load-path (expand-file-name "/home/dimperial/.emacs-site/tramp/lisp"))
@@ -179,6 +192,18 @@
                              "~/Documents/todos/home.org"
                              "~/Documents/todos/improvement.org"
                              ))
+;; Remote debugger.
+ 'load-path 
+(add-to-list 'load-path (expand-file-name "~/.emacs-site/geben"))
+(require 'geben)
+
+
+;; Use ruby mode for rake files.
+(setq auto-mode-alist (cons '("\.rake$" . ruby-mode) auto-mode-alist))
+
+;; Go lang
+(require 'go-mode)
+
 ;; Fonts and faces for emacs23
 ;;(custom-set-variables
 ;;  ;; custom-set-variables was added by Custom.
@@ -195,3 +220,4 @@
 
 ;; In emacs24 we use a theme instead of the above
 (load-theme 'wombat t)
+
