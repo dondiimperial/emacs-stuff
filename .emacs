@@ -89,6 +89,7 @@
 ;;(setq auto-mode-alist (cons '("\.ctp$" . html-mode) auto-mode-alist))
 ;; Auto load perl mode for .php files
 ;; (setq auto-mode-alist (cons '("\.php$" . php-mode) auto-mode-alist))
+
 ;; Web mode for all web type files.
 (require 'web-mode)
 (defun my-web-mode-hook ()
@@ -195,10 +196,8 @@
                              "~/Documents/todos/improvement.org"
                              ))
 ;; Remote debugger.
- 'load-path 
 ;;(add-to-list 'load-path (expand-file-name "~/.emacs-site/geben"))
 ;;(require 'geben)
-
 
 ;; Use ruby mode for rake files.
 (setq auto-mode-alist (cons '("\.rake$" . ruby-mode) auto-mode-alist))
