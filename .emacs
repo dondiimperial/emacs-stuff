@@ -85,9 +85,24 @@
 
 ;; Auto load java mode for .java files
 ;;(setq auto-mode-alist (cons '("\.java$" . jde-mode) auto-mode-alist))
-(setq auto-mode-alist (cons '("\.ctp$" . html-mode) auto-mode-alist))
+;;(require 'php-mode)
+;;(setq auto-mode-alist (cons '("\.ctp$" . html-mode) auto-mode-alist))
 ;; Auto load perl mode for .php files
-(setq auto-mode-alist (cons '("\.php$" . php-mode) auto-mode-alist))
+;; (setq auto-mode-alist (cons '("\.php$" . php-mode) auto-mode-alist))
+;; Web mode for all web type files.
+(require 'web-mode)
+(defun my-web-mode-hook ()
+  "Hooks for Web mode."
+  ;; HTML indent
+  (setq web-mode-markup-indent-offset 4)
+  ;; CSS indent
+  (setq web-mode-css-indent-offset 4)
+  ;; Javascript, PHP, Java, etc. indent.
+  (setq web-mode-code-indent-offset 4)
+)
+(add-hook 'web-mode-hook  'my-web-mode-hook)
+(setq auto-mode-alist (cons '("\.php$" . web-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\.erb$" . web-mode) auto-mode-alist))
 
 ;; Tramp for remote file editing
 ;;(add-to-list 'load-path (expand-file-name "/home/dimperial/.emacs-site/tramp/lisp"))
@@ -179,11 +194,101 @@
                              "~/Documents/todos/home.org"
                              "~/Documents/todos/improvement.org"
                              ))
+;; Remote debugger.
+ 'load-path 
+;;(add-to-list 'load-path (expand-file-name "~/.emacs-site/geben"))
+;;(require 'geben)
+
+
+;; Use ruby mode for rake files.
+(setq auto-mode-alist (cons '("\.rake$" . ruby-mode) auto-mode-alist))
+
+;; Go lang
+(require 'go-mode-autoloads)
+
+;; Emacs for clojure configuration pulled from https://github.com/flyingmachine/emacs-for-clojure
+;; Define package repositories
+(require 'package)
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives
+             '("tromey" . "http://tromey.com/elpa/") t)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
+;; Load and activate emacs packages. Do this first so that the
+;; packages are loaded before you start trying to modify them.
+;; This also sets the load path.
+(package-initialize)
+
+;; Download the ELPA archive description if needed.
+;; This informs Emacs about the latest versions of all packages, and
+;; makes them available for download.
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+;; The packages you want installed. You can also install these
+;; manually with M-x package-install
+;; Add in your own as you wish:
+(defvar my-packages
+  '(;; makes handling lisp expressions much, much easier
+    ;; Cheatsheet: http://www.emacswiki.org/emacs/PareditCheatsheet
+    paredit
+
+    ;; key bindings and code colorization for Clojure
+    ;; https://github.com/clojure-emacs/clojure-mode
+    clojure-mode
+
+    ;; extra syntax highlighting for clojure
+    clojure-mode-extra-font-locking
+
+    ;; integration with a Clojure REPL
+    ;; https://github.com/clojure-emacs/cider
+    cider
+
+    ;; allow ido usage in as many contexts as possible. see
+    ;; customizations/navigation.el line 23 for a description
+    ;; of ido
+    ido-ubiquitous
+
+    ;; Enhances M-x to allow easier execution of commands. Provides
+    ;; a filterable list of possible commands in the minibuffer
+    ;; http://www.emacswiki.org/emacs/Smex
+    smex
+
+    ;; project navigation
+    projectile
+
+    ;; colorful parenthesis matching
+    rainbow-delimiters
+
+    ;; edit html tags like sexps
+    tagedit
+
+    ;; git integration
+    magit))
+
+(dolist (p my-packages)
+  (when (not (package-installed-p p))
+    (package-install p)))
+
+;; Sets up exec-path-from-shell so that Emacs will use the correct
+;; environment variables
+(load "shell-integration.el")
+
+;; For editing lisps
+(load "elisp-editing.el")
+
+;; Langauage-specific
+(load "setup-clojure.el")
+(load "setup-js.el")
+;; End emacs for clojure configuration
+
 ;; Fonts and faces for emacs23
 ;;(custom-set-variables
 ;;  ;; custom-set-variables was added by Custom.
 ;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
+;;  ;; Your init file sh	ould contain only one such instance.
 ;;  ;; If there is more than one, they won't work right.
 ;; )
 ;;(custom-set-faces
@@ -195,3 +300,4 @@
 
 ;; In emacs24 we use a theme instead of the above
 (load-theme 'wombat t)
+
