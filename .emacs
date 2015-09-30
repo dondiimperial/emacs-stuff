@@ -83,12 +83,39 @@
 ;; semantic cache folder
 ;;(setq semanticdb-default-save-directory "~/.semantic.cache")
 
+;; Syntax checker for PHP.
+(require 'flymake)
+;; Limit to checking 8 files in parallel to speed up startup when multiple PHP buffers are open.
+(setq flymake-max-parallel-syntax-checks 8)
+;; Where to save temporary copies of the files being checked.
+(setq flymake-run-in-place nil)
+(setq temporary-file-directory "/tmp/")
+;; How many errors to show in the tooltip per line.
+(setq flymake-number-of-errors-to-display 4)
+;; Only on PHP files
+(add-to-list 'flymake-allowed-file-name-masks '("\\.php$" flymake-php-init))
+;; enable flymake minor mode when using php-mode
+;; END PHP stuff
+
+
 ;; Auto load java mode for .java files
 ;;(setq auto-mode-alist (cons '("\.java$" . jde-mode) auto-mode-alist))
 ;;(require 'php-mode)
 ;;(setq auto-mode-alist (cons '("\.ctp$" . html-mode) auto-mode-alist))
 ;; Auto load perl mode for .php files
 ;; (setq auto-mode-alist (cons '("\.php$" . php-mode) auto-mode-alist))
+
+;; Emmet mode for https://github.com/smihica/emmet-mode
+;; For zen coding html
+(require 'emmet-mode)
+
+(defun zen-coding-on ()
+  (interactive)
+  (emmet-mode))
+
+(defun zen-coding-off ()
+  (interactive)
+  (emmet-mode 0))
 
 ;; Web mode for all web type files.
 (require 'web-mode)
@@ -100,10 +127,31 @@
   (setq web-mode-css-indent-offset 4)
   ;; Javascript, PHP, Java, etc. indent.
   (setq web-mode-code-indent-offset 4)
-)
+
+  ;; Turn on flymake minor mode if editing a php file
+  (when (and (stringp buffer-file-name)
+             (string-match "\\.php\\'" buffer-file-name))
+    (flymake-mode)
+    ))  
+
 (add-hook 'web-mode-hook  'my-web-mode-hook)
 (setq auto-mode-alist (cons '("\.php$" . web-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\.erb$" . web-mode) auto-mode-alist))
+
+
+;; Use ruby mode for rake files.
+(setq auto-mode-alist (cons '("\.rake$" . ruby-mode) auto-mode-alist))
+
+;; Go lang
+(require 'go-mode-autoloads)
+
+;; Autocomplete
+(add-to-list 'load-path "~/.emacs-site/auto-complete")
+(require 'auto-complete)
+(add-to-list 'ac-dictionary-directories "~/.emacs-site/auto-complete/ac-dict")
+(require 'auto-complete-config)
+(ac-config-default)
+(global-auto-complete-mode t)
 
 ;; Tramp for remote file editing
 ;;(add-to-list 'load-path (expand-file-name "/home/dimperial/.emacs-site/tramp/lisp"))
@@ -196,14 +244,8 @@
                              "~/Documents/todos/improvement.org"
                              ))
 ;; Remote debugger.
-;;(add-to-list 'load-path (expand-file-name "~/.emacs-site/geben"))
-;;(require 'geben)
-
-;; Use ruby mode for rake files.
-(setq auto-mode-alist (cons '("\.rake$" . ruby-mode) auto-mode-alist))
-
-;; Go lang
-(require 'go-mode-autoloads)
+(add-to-list 'load-path (expand-file-name "~/.emacs-site/geben"))
+(require 'geben)
 
 ;; Emacs for clojure configuration pulled from https://github.com/flyingmachine/emacs-for-clojure
 ;; Define package repositories
@@ -282,6 +324,34 @@
 (load "setup-clojure.el")
 (load "setup-js.el")
 ;; End emacs for clojure configuration
+
+;; Python
+(setq py-install-directory "~/.emacs-site/python-mode")
+(add-to-list 'load-path py-install-directory)
+(require 'python-mode)
+
+;; use IPython
+(setq-default py-shell-name "ipython")
+(setq-default py-which-bufname "IPython")
+;; use the wx backend, for both mayavi and matplotlib
+(setq py-python-command-args
+  '("--gui=wx" "--pylab=wx" "-colors" "Linux"))
+(setq py-force-py-shell-name-p t)
+
+;; switch to the interpreter after executing code
+(setq py-shell-switch-buffers-on-execute-p t)
+(setq py-switch-buffers-on-execute-p t)
+;; don't split windows
+(setq py-split-windows-on-execute-p nil)
+;; try to automagically figure out indentation
+(setq py-smart-indentation t)
+
+(require 'virtualenvwrapper)
+(venv-initialize-interactive-shells) ;; if you want interactive shell support
+(venv-initialize-eshell)
+
+;; For jinja template editing.
+(require 'jinja2-mode)
 
 ;; Fonts and faces for emacs23
 ;;(custom-set-variables
